@@ -35,10 +35,15 @@ void APickUp::BeginPlay()
 	//MyCharacter = ;
 }
 
-void APickUp::PickUp()
+bool APickUp::PickUp()
 {
-	CapsuleComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-	PickUpStatus = EPickUpStatus::EPickedUp;
+	if (Cast<AMyAnt>(UGameplayStatics::GetPlayerCharacter(this, 0))->PowerLevel >= PowerLevelRequired)
+	{
+		CapsuleComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		PickUpStatus = EPickUpStatus::EPickedUp;
+		return true;
+	}
+	return false;
 }
 
 void APickUp::Drop()
