@@ -53,4 +53,7 @@ class YOLA_API AMyAnt : public APaperCharacter
 
 	float PowerLevel;
 
+	//UFUNCTION(BlueprintCallable, Category = Pause)
+	//void PausePlayer();
+
 };

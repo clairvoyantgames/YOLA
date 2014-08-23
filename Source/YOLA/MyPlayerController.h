@@ -32,5 +32,8 @@ protected:
 	void OnSetDestinationPressed();
 	void OnSetDestinationReleased();
 	
+	UFUNCTION(BlueprintCallable, Category = Pause)
+	void PausePlayer();
 	
+	bool bIsPaused;
 };

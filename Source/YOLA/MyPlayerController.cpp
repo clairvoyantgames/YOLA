@@ -34,30 +34,36 @@ void AMyPlayerController::SetupInputComponent()
 
 void AMyPlayerController::MoveToMouseCursor()
 {
-	// Trace to see what is under the mouse cursor
-	FHitResult Hit;
-	GetHitResultUnderCursor(ECC_Visibility, false, Hit);
-
-	if (Hit.bBlockingHit)
+	if (!bIsPaused)
 	{
-		// We hit something, move there
-		SetNewMoveDestination(Hit.ImpactPoint);
+		// Trace to see what is under the mouse cursor
+		FHitResult Hit;
+		GetHitResultUnderCursor(ECC_Visibility, false, Hit);
+
+		if (Hit.bBlockingHit)
+		{
+			// We hit something, move there
+			SetNewMoveDestination(Hit.ImpactPoint);
+		}
 	}
 }
 
 
 void AMyPlayerController::SetNewMoveDestination(const FVector DestLocation)
 {
-	APawn* const Pawn = GetPawn();
-	if (Pawn)
+	if (!bIsPaused)
 	{
-		UNavigationSystem* const NavSys = GetWorld()->GetNavigationSystem();
-		float const Distance = FVector::Dist(DestLocation, Pawn->GetActorLocation());
-
-		// We need to issue move command only if far enough in order for walk animation to play correctly
-		if (NavSys && (Distance > 120.0f))
+		APawn* const Pawn = GetPawn();
+		if (Pawn)
 		{
-			NavSys->SimpleMoveToLocation(this, DestLocation);
+			UNavigationSystem* const NavSys = GetWorld()->GetNavigationSystem();
+			float const Distance = FVector::Dist(DestLocation, Pawn->GetActorLocation());
+
+			// We need to issue move command only if far enough in order for walk animation to play correctly
+			if (NavSys && (Distance > 120.0f))
+			{
+				NavSys->SimpleMoveToLocation(this, DestLocation);
+			}
 		}
 	}
 }
@@ -72,5 +78,12 @@ void AMyPlayerController::OnSetDestinationReleased()
 {
 	// clear flag to indicate we should stop updating the destination
 	bMoveToMouseCursor = false;
+}
+
+void AMyPlayerController::PausePlayer()
+{
+
+	bIsPaused = true;
+	
 }
 
