@@ -30,10 +30,6 @@ void AMyPlayerController::SetupInputComponent()
 	// Bind actions
 	InputComponent->BindAction("SetDestination", IE_Pressed, this, &AMyPlayerController::OnSetDestinationPressed);
 	InputComponent->BindAction("SetDestination", IE_Released, this, &AMyPlayerController::OnSetDestinationReleased);
-
-	// support touch devices 
-	InputComponent->BindTouch(EInputEvent::IE_Pressed, this, &AMyPlayerController::MoveToTouchLocation);
-	InputComponent->BindTouch(EInputEvent::IE_Repeat, this, &AMyPlayerController::MoveToTouchLocation);
 }
 
 void AMyPlayerController::MoveToMouseCursor()
@@ -49,19 +45,6 @@ void AMyPlayerController::MoveToMouseCursor()
 	}
 }
 
-void AMyPlayerController::MoveToTouchLocation(const ETouchIndex::Type FingerIndex, const FVector Location)
-{
-	FVector2D ScreenSpaceLocation(Location);
-
-	// Trace to see what is under the touch location
-	FHitResult HitResult;
-	GetHitResultAtScreenPosition(ScreenSpaceLocation, CurrentClickTraceChannel, true, HitResult);
-	if (HitResult.bBlockingHit)
-	{
-		// We hit something, move there
-		SetNewMoveDestination(HitResult.ImpactPoint);
-	}
-}
 
 void AMyPlayerController::SetNewMoveDestination(const FVector DestLocation)
 {

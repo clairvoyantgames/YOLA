@@ -1,6 +1,8 @@
 
 
 #include "YOLA.h"
+#include "PaperFlipbookComponent.h"
+#include "PaperCharacter.h"
 #include "MyAnt.h"
 
 
@@ -26,6 +28,10 @@ AMyAnt::AMyAnt(const class FPostConstructInitializeProperties& PCIP)
 	CollisionComp->AttachTo(RootComponent);
 	CollisionComp->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Overlap);
 	CollisionComp->bGenerateOverlapEvents = true;
+
+	CapsuleComponent->SetCapsuleHalfHeight(75);
+	CapsuleComponent->SetCapsuleRadius(75);
+	//Sprite = PCIP.CreateDefaultSubobject<UPaperFlipbookComponent>(this, TEXT("TheSprite"));
 }
 
 void AMyAnt::SetupPlayerInputComponent(class UInputComponent* InputComponent)
@@ -53,6 +59,7 @@ void AMyAnt::PickUp()
 					MyPickUp = overlappedPickUp;
 					MyPickUp->PickUp();
 					bBroLifts = true;
+					//UpdateAnimation();
 					break;
 				}
 			}
@@ -62,7 +69,6 @@ void AMyAnt::PickUp()
 	{
 
 		// player has something so drop it
-		//MyPickUp->SetPickUpStatus(EPickUpStatus::EOnFloor);
 		MyPickUp->Drop();
 		bBroLifts = false;
 	}
@@ -76,4 +82,5 @@ void AMyAnt::UpdateAnimation()
 	// Are we moving or standing still?
 	UPaperFlipbook* DesiredAnimation = (PlayerSpeed > 0.0f) ? RunningAnimation : IdleAnimation;
 	//Sprite->SetFlipbook(DesiredAnimation);
+	Sprite->SetFlipbook(DesiredAnimation);
 }
