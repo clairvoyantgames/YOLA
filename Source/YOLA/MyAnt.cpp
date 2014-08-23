@@ -31,7 +31,8 @@ AMyAnt::AMyAnt(const class FPostConstructInitializeProperties& PCIP)
 
 	CapsuleComponent->SetCapsuleHalfHeight(75);
 	CapsuleComponent->SetCapsuleRadius(75);
-	//Sprite = PCIP.CreateDefaultSubobject<UPaperFlipbookComponent>(this, TEXT("TheSprite"));
+
+	PowerLevel = 0;
 }
 
 void AMyAnt::SetupPlayerInputComponent(class UInputComponent* InputComponent)
@@ -57,10 +58,14 @@ void AMyAnt::PickUp()
 				if (overlappedPickUp && overlappedPickUp->GetPickUpStatus() != EPickUpStatus::EPickedUp)
 				{
 					MyPickUp = overlappedPickUp;
-					MyPickUp->PickUp();
-					bBroLifts = true;
-					//UpdateAnimation();
-					break;
+					
+					if (MyPickUp->PickUp())
+					{
+						bBroLifts = true;
+						//UpdateAnimation();
+						break;
+					}
+					
 				}
 			}
 		}
@@ -84,3 +89,4 @@ void AMyAnt::UpdateAnimation()
 	//Sprite->SetFlipbook(DesiredAnimation);
 	Sprite->SetFlipbook(DesiredAnimation);
 }
+

@@ -27,13 +27,13 @@ class YOLA_API APickUp : public APaperCharacter
 	void SetPickUpStatus(EPickUpStatus newStatus);
 
 	// Override Tick
-	virtual void Tick(float DeltaSeconds) OVERRIDE;
+	virtual void Tick(float DeltaSeconds) override;
 
 	// saves my character
 	//AMyAnt* MyCharacter;
 
 	// Begin Play function
-	virtual void BeginPlay() OVERRIDE;
+	virtual void BeginPlay() override;
 
 	// The animation to play while idle 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
@@ -46,8 +46,12 @@ class YOLA_API APickUp : public APaperCharacter
 	//UPROPERTY(Category = Character, VisibleAnywhere, BlueprintReadOnly)
 	//TSubobjectPtr<UPaperFlipbookComponent> Sprite;
 
-	void PickUp();
+	bool PickUp();
 	void Drop();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = PowerLevel)
+	float PowerLevelRequired;
+
 private:
 	EPickUpStatus PickUpStatus;
 	
