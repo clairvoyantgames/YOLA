@@ -20,6 +20,12 @@ AMyAnt::AMyAnt(const class FPostConstructInitializeProperties& PCIP)
 	TopDownCameraComponent->AttachTo(CameraBoom, USpringArmComponent::SocketName);
 	TopDownCameraComponent->bUseControllerViewRotation = false; // Camera does not rotate relative to arm
 	bBroLifts = false;
+
+	CollisionComp = PCIP.CreateDefaultSubobject<UBoxComponent>(this, TEXT("CollisionComp"));
+	CollisionComp->InitBoxExtent(FVector(150));
+	CollisionComp->AttachTo(RootComponent);
+	CollisionComp->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Overlap);
+	CollisionComp->bGenerateOverlapEvents = true;
 }
 
 void AMyAnt::SetupPlayerInputComponent(class UInputComponent* InputComponent)
@@ -36,7 +42,7 @@ void AMyAnt::PickUp()
 	{
 		// pick up whatever is in front of it 
 		TArray<AActor*> OverlappingActors;
-		CapsuleComponent->GetOverlappingActors(OverlappingActors);
+		CollisionComp->GetOverlappingActors(OverlappingActors);
 		if (OverlappingActors.Num() > 0)
 		{
 			for (int32 x = 0; x < OverlappingActors.Num(); x++)
@@ -45,8 +51,9 @@ void AMyAnt::PickUp()
 				if (overlappedPickUp && overlappedPickUp->GetPickUpStatus() != EPickUpStatus::EPickedUp)
 				{
 					MyPickUp = overlappedPickUp;
-					MyPickUp->SetPickUpStatus(EPickUpStatus::EPickedUp);
-					bBroLifts;
+					MyPickUp->PickUp();
+					bBroLifts = true;
+					break;
 				}
 			}
 		}
@@ -55,7 +62,18 @@ void AMyAnt::PickUp()
 	{
 
 		// player has something so drop it
-		MyPickUp->SetPickUpStatus(EPickUpStatus::EOnFloor);
+		//MyPickUp->SetPickUpStatus(EPickUpStatus::EOnFloor);
+		MyPickUp->Drop();
 		bBroLifts = false;
 	}
+}
+
+void AMyAnt::UpdateAnimation()
+{
+	const FVector PlayerVelocity = GetVelocity();
+	const float PlayerSpeed = PlayerVelocity.Size();
+
+	// Are we moving or standing still?
+	UPaperFlipbook* DesiredAnimation = (PlayerSpeed > 0.0f) ? RunningAnimation : IdleAnimation;
+	//Sprite->SetFlipbook(DesiredAnimation);
 }

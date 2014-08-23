@@ -5,6 +5,8 @@
 #include "PaperCharacter.h"
 #include "GameFramework/Character.h"
 #include "PickUp.h"
+#include "PaperFlipbook.h"
+#include "Paper2DModule.h"
 #include "MyAnt.generated.h"
 
 /**
@@ -31,5 +33,21 @@ class YOLA_API AMyAnt : public APaperCharacter
 	bool bBroLifts;
 	// pickup* for the one player is holding 
 	APickUp* MyPickUp;
+
+	void UpdateAnimation();
+
+	// The animation to play while running around
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
+	class UPaperFlipbook* PickUpAnimation;
+
+	// The animation to play while idle 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
+	class UPaperFlipbook* IdleAnimation;
+
+	// The animation to play while idle 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
+	class UPaperFlipbook* RunningAnimation;
 	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement)
+	TSubobjectPtr<class UBoxComponent> CollisionComp;
 };
