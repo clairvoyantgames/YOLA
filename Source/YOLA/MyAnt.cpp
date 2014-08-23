@@ -53,6 +53,7 @@ void AMyAnt::PickUp()
 	}
 	else
 	{
+
 		// player has something so drop it
 		MyPickUp->SetPickUpStatus(EPickUpStatus::EOnFloor);
 		bBroLifts = false;
