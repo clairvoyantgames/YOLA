@@ -20,5 +20,4 @@ class YOLA_API ACreature : public AActor
 	bool bIsDead;
 
 	void Die();
-	
 };
