@@ -21,12 +21,13 @@ void AMyPlayerController::PlayerTick(float DeltaTime)
 	// keep updating the destination every tick while desired
 	if (bMoveToMouseCursor)
 	{
+		ToLocationCounter = 0;
 		MoveToMouseCursor();
 	}
 
 	if (MovingToLocation)
 	{
-		ToLocationCounter += (DeltaTime * .10);
+		ToLocationCounter += (DeltaTime * .1);
 		SetNewMoveDestination();
 	}
 	
