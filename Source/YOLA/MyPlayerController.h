@@ -26,7 +26,7 @@ protected:
 	void MoveToMouseCursor();
 
 	/** Navigate player to the given world location. */
-	void SetNewMoveDestination();
+	void SetNewMoveDestination(const FVector DestLocation);
 
 	/** Input handlers for SetDestination action. */
 	void OnSetDestinationPressed();
@@ -37,7 +37,7 @@ protected:
 	
 	bool bIsPaused;
 
-	void MovePlayerToLocation(const FVector Location);
+	
 	float ToLocationCounter;
 	FVector DestinationLocation;
 	bool MovingToLocation;

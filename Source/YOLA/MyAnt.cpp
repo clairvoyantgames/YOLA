@@ -12,7 +12,7 @@ AMyAnt::AMyAnt(const class FPostConstructInitializeProperties& PCIP)
 	// Create a camera boom...
 	CameraBoom = PCIP.CreateDefaultSubobject<USpringArmComponent>(this, TEXT("CameraBoom"));
 	CameraBoom->AttachTo(RootComponent);
-	CameraBoom->bAbsoluteRotation = true; // Don't want arm to rotate when character does
+	CameraBoom->bAbsoluteRotation = false; // Don't want arm to rotate when character does
 	CameraBoom->TargetArmLength = 800.f;
 	CameraBoom->RelativeRotation = FRotator(-60.f, 0.f, 0.f);
 	CameraBoom->bDoCollisionTest = false; // Don't want to pull camera in when it collides with level
@@ -54,6 +54,16 @@ void AMyAnt::PickUp()
 		{
 			for (int32 x = 0; x < OverlappingActors.Num(); x++)
 			{
+
+				ACreature* overLappedCreature = Cast<ACreature>(OverlappingActors[x]);
+				if (overLappedCreature && overLappedCreature->bIsDead)
+				{
+					MyCreature = overLappedCreature;
+					PowerUp(overLappedCreature->PowerLevelToGive);
+					break;
+				}
+
+
 				APickUp* overlappedPickUp = Cast<APickUp>(OverlappingActors[x]);
 				if (overlappedPickUp && overlappedPickUp->GetPickUpStatus() != EPickUpStatus::EPickedUp)
 				{
@@ -90,3 +100,9 @@ void AMyAnt::UpdateAnimation()
 	Sprite->SetFlipbook(DesiredAnimation);
 }
 
+void AMyAnt::PowerUp(float amount)
+{
+	PowerLevel += amount;
+	Sprite->SetRelativeScale3D(Sprite->GetComponentScale() * amount);
+	MyCreature->Die();
+}
