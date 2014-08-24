@@ -13,6 +13,8 @@ class YOLA_API AMyPlayerController : public APlayerController
 {
 	GENERATED_UCLASS_BODY()
 
+	UFUNCTION(BlueprintCallable, Category = Pause)
+	void PausePlayer();
 protected:
 	/** True if the controlled character should navigate to the mouse cursor. */
 	uint32 bMoveToMouseCursor : 1;
@@ -32,8 +34,7 @@ protected:
 	void OnSetDestinationPressed();
 	void OnSetDestinationReleased();
 	
-	UFUNCTION(BlueprintCallable, Category = Pause)
-	void PausePlayer();
+	
 	
 	bool bIsPaused;
 
