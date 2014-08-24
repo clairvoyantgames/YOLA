@@ -21,6 +21,9 @@ AMyAnt::AMyAnt(const class FPostConstructInitializeProperties& PCIP)
 	TopDownCameraComponent = PCIP.CreateDefaultSubobject<UCameraComponent>(this, TEXT("TopDownCamera"));
 	TopDownCameraComponent->AttachTo(CameraBoom, USpringArmComponent::SocketName);
 	TopDownCameraComponent->bUseControllerViewRotation = false; // Camera does not rotate relative to arm
+	TopDownCameraComponent->ProjectionMode = ECameraProjectionMode::Orthographic;
+	TopDownCameraComponent->OrthoWidth = 2048;
+
 	bBroLifts = false;
 
 	CollisionComp = PCIP.CreateDefaultSubobject<UBoxComponent>(this, TEXT("CollisionComp"));
@@ -104,5 +107,6 @@ void AMyAnt::PowerUp(float amount)
 {
 	PowerLevel += amount;
 	Sprite->SetRelativeScale3D(Sprite->GetComponentScale() * amount);
+	TopDownCameraComponent->OrthoWidth *= 2;
 	MyCreature->Die();
 }

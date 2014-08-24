@@ -55,6 +55,7 @@ class YOLA_API AMyAnt : public APaperCharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement)
 	TSubobjectPtr<class UBoxComponent> CollisionComp;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement)
 	float PowerLevel;
 
 	//UFUNCTION(BlueprintCallable, Category = Pause)
