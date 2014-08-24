@@ -55,5 +55,5 @@ class YOLA_API AMyAnt : public APaperCharacter
 
 	//UFUNCTION(BlueprintCallable, Category = Pause)
 	//void PausePlayer();
-
+	
 };

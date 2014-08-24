@@ -1,6 +1,7 @@
 
 
 #include "YOLA.h"
+#include "MyAnt.h"
 #include "MyPlayerController.h"
 
 
@@ -9,6 +10,8 @@ AMyPlayerController::AMyPlayerController(const class FPostConstructInitializePro
 {
 	bShowMouseCursor = true;
 	DefaultMouseCursor = EMouseCursor::Crosshairs;
+	ToLocationCounter = 0.0f;
+	MovingToLocation = false;
 }
 
 void AMyPlayerController::PlayerTick(float DeltaTime)
@@ -20,6 +23,13 @@ void AMyPlayerController::PlayerTick(float DeltaTime)
 	{
 		MoveToMouseCursor();
 	}
+
+	if (MovingToLocation)
+	{
+		ToLocationCounter += (DeltaTime * .10);
+		SetNewMoveDestination();
+	}
+	
 }
 
 void AMyPlayerController::SetupInputComponent()
@@ -39,31 +49,41 @@ void AMyPlayerController::MoveToMouseCursor()
 		// Trace to see what is under the mouse cursor
 		FHitResult Hit;
 		GetHitResultUnderCursor(ECC_Visibility, false, Hit);
-
+		APawn* const Pawn = GetPawn();
+		//float const Distance = FVector::Dist(DestinationLocation, Pawn->GetActorLocation());
+		
 		if (Hit.bBlockingHit)
 		{
+			DestinationLocation = Hit.ImpactPoint;
 			// We hit something, move there
-			SetNewMoveDestination(Hit.ImpactPoint);
+			SetNewMoveDestination();
+			MovingToLocation = true;
+			
 		}
 	}
 }
 
 
-void AMyPlayerController::SetNewMoveDestination(const FVector DestLocation)
+void AMyPlayerController::SetNewMoveDestination()
 {
 	if (!bIsPaused)
 	{
+		
+		AMyAnt* MyAnt = Cast<AMyAnt>(UGameplayStatics::GetPlayerCharacter(this, 0));
 		APawn* const Pawn = GetPawn();
 		if (Pawn)
 		{
-			UNavigationSystem* const NavSys = GetWorld()->GetNavigationSystem();
-			float const Distance = FVector::Dist(DestLocation, Pawn->GetActorLocation());
-
+				MyAnt->SetActorLocation(FMath::Lerp(MyAnt->GetActorLocation(), FVector(DestinationLocation.X, DestinationLocation.Y, MyAnt->GetActorLocation().Z), ToLocationCounter),true);
+				if (ToLocationCounter >= 1.0f)
+				{
+					MovingToLocation = false;
+					ToLocationCounter = 0;
+				}
 			// We need to issue move command only if far enough in order for walk animation to play correctly
-			if (NavSys && (Distance > 120.0f))
-			{
-				NavSys->SimpleMoveToLocation(this, DestLocation);
-			}
+			//if (NavSys && (Distance > 120.0f))
+			//{
+			//	NavSys->SimpleMoveToLocation(this, DestLocation);
+			//}
 		}
 	}
 }
@@ -85,5 +105,10 @@ void AMyPlayerController::PausePlayer()
 
 	bIsPaused = true;
 	
+}
+
+void AMyPlayerController::MovePlayerToLocation(const FVector Location)
+{
+
 }
 
