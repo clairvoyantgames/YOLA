@@ -25,11 +25,11 @@ void AMyPlayerController::PlayerTick(float DeltaTime)
 		MoveToMouseCursor();
 	}
 
-	if (MovingToLocation)
+	/*if (MovingToLocation)
 	{
 		ToLocationCounter += (DeltaTime * .1);
 		SetNewMoveDestination();
-	}
+	}*/
 	
 }
 
@@ -57,7 +57,7 @@ void AMyPlayerController::MoveToMouseCursor()
 		{
 			DestinationLocation = Hit.ImpactPoint;
 			// We hit something, move there
-			SetNewMoveDestination();
+			SetNewMoveDestination(DestinationLocation);
 			MovingToLocation = true;
 			
 		}
@@ -65,7 +65,7 @@ void AMyPlayerController::MoveToMouseCursor()
 }
 
 
-void AMyPlayerController::SetNewMoveDestination()
+void AMyPlayerController::SetNewMoveDestination(const FVector DestLocation)
 {
 	if (!bIsPaused)
 	{
@@ -74,17 +74,19 @@ void AMyPlayerController::SetNewMoveDestination()
 		APawn* const Pawn = GetPawn();
 		if (Pawn)
 		{
-				MyAnt->SetActorLocation(FMath::Lerp(MyAnt->GetActorLocation(), FVector(DestinationLocation.X, DestinationLocation.Y, MyAnt->GetActorLocation().Z), ToLocationCounter),true);
+				/*MyAnt->SetActorLocation(FMath::Lerp(MyAnt->GetActorLocation(), FVector(DestinationLocation.X, DestinationLocation.Y, MyAnt->GetActorLocation().Z), ToLocationCounter),true);
 				if (ToLocationCounter >= 1.0f)
 				{
 					MovingToLocation = false;
 					ToLocationCounter = 0;
-				}
+				}*/
+			UNavigationSystem* const NavSys = GetWorld()->GetNavigationSystem();
+			float const Distance = FVector::Dist(DestLocation, Pawn->GetActorLocation());
 			// We need to issue move command only if far enough in order for walk animation to play correctly
-			//if (NavSys && (Distance > 120.0f))
-			//{
-			//	NavSys->SimpleMoveToLocation(this, DestLocation);
-			//}
+			if (NavSys && (Distance > 120.0f))
+			{
+				NavSys->SimpleMoveToLocation(this, DestLocation);
+			}
 		}
 	}
 }
@@ -109,8 +111,4 @@ void AMyPlayerController::PausePlayer()
 	
 }
 
-void AMyPlayerController::MovePlayerToLocation(const FVector Location)
-{
-
-}
 
