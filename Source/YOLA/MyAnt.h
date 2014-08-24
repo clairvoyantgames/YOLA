@@ -30,12 +30,16 @@ class YOLA_API AMyAnt : public APaperCharacter
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 	void PickUp();
+
 	// bool if player is picking up something , update animation and dont carry 2 things
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = lifts)
 	bool bBroLifts;
 
 	// pickup* for the one player is holding 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = PickUp)
 	APickUp* MyPickUp;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Creature)
 	ACreature* MyCreature;
 
 	void UpdateAnimation();
