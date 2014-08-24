@@ -52,3 +52,7 @@ void APickUp::Drop()
 	PickUpStatus = EPickUpStatus::EOnFloor;
 	SetActorLocation(UGameplayStatics::GetPlayerCharacter(this, 0)->GetActorLocation() + FVector(0, ThrowDistance, 0));
 }
+
+bool APickUp::IsPickedUp(){
+	return PickUpStatus == EPickUpStatus::EPickedUp;
+}

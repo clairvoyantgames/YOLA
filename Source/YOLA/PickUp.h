@@ -56,8 +56,10 @@ class YOLA_API APickUp : public APaperCharacter
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = PowerLevel)
 	float ThrowDistance;
+		
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = PickUp)
+	bool IsPickedUp();
 
 private:
 	EPickUpStatus PickUpStatus;
-	
 };
