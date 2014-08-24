@@ -21,7 +21,7 @@ void AMyPlayerController::PlayerTick(float DeltaTime)
 	// keep updating the destination every tick while desired
 	if (bMoveToMouseCursor)
 	{
-		ToLocationCounter = 0;
+		
 		MoveToMouseCursor();
 	}
 
@@ -91,6 +91,7 @@ void AMyPlayerController::SetNewMoveDestination()
 
 void AMyPlayerController::OnSetDestinationPressed()
 {
+	ToLocationCounter = 0;
 	// set flag to keep updating destination until released
 	bMoveToMouseCursor = true;
 }

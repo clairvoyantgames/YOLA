@@ -50,5 +50,5 @@ void APickUp::Drop()
 {
 	CapsuleComponent->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 	PickUpStatus = EPickUpStatus::EOnFloor;
-	SetActorLocation(UGameplayStatics::GetPlayerCharacter(this, 0)->GetActorLocation() + FVector(150, 0, 0));
+	SetActorLocation(UGameplayStatics::GetPlayerCharacter(this, 0)->GetActorLocation() + FVector(0, -300, 0));
 }

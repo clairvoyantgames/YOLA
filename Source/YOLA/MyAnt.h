@@ -7,6 +7,7 @@
 #include "PickUp.h"
 #include "PaperFlipbook.h"
 #include "Paper2DModule.h"
+#include "Creature.h"
 #include "MyAnt.generated.h"
 
 /**
@@ -31,8 +32,11 @@ class YOLA_API AMyAnt : public APaperCharacter
 	void PickUp();
 	// bool if player is picking up something , update animation and dont carry 2 things
 	bool bBroLifts;
+
 	// pickup* for the one player is holding 
 	APickUp* MyPickUp;
+
+	ACreature* MyCreature;
 
 	void UpdateAnimation();
 
@@ -55,5 +59,6 @@ class YOLA_API AMyAnt : public APaperCharacter
 
 	//UFUNCTION(BlueprintCallable, Category = Pause)
 	//void PausePlayer();
+	void PowerUp(float amount);
 	
 };
