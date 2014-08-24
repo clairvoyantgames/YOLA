@@ -47,6 +47,8 @@ class YOLA_API APickUp : public APaperCharacter
 	//TSubobjectPtr<UPaperFlipbookComponent> Sprite;
 
 	bool PickUp();
+
+	UFUNCTION(BlueprintCallable, Category = drop)
 	void Drop();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = PowerLevel)
