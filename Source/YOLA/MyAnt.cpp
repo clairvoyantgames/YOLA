@@ -107,6 +107,7 @@ void AMyAnt::PowerUp(float amount)
 {
 	PowerLevel += amount;
 	Sprite->SetRelativeScale3D(Sprite->GetComponentScale() * amount);
-	TopDownCameraComponent->OrthoWidth *= 2;
+	TopDownCameraComponent->OrthoWidth *= amount;
+	CharacterMovement->MaxWalkSpeed = GetMovementComponent()->GetMaxSpeed() * amount;
 	MyCreature->Die();
 }
