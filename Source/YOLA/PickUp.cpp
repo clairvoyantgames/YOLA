@@ -39,7 +39,7 @@ bool APickUp::PickUp()
 {
 	if (Cast<AMyAnt>(UGameplayStatics::GetPlayerCharacter(this, 0))->PowerLevel >= PowerLevelRequired)
 	{
-		CapsuleComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		//CapsuleComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		PickUpStatus = EPickUpStatus::EPickedUp;
 		return true;
 	}
@@ -48,7 +48,7 @@ bool APickUp::PickUp()
 
 void APickUp::Drop()
 {
-	CapsuleComponent->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+	//CapsuleComponent->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 	PickUpStatus = EPickUpStatus::EOnFloor;
 	SetActorLocation(UGameplayStatics::GetPlayerCharacter(this, 0)->GetActorLocation() + FVector(0, ThrowDistance, 0));
 }
