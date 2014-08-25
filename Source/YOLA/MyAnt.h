@@ -62,8 +62,9 @@ class YOLA_API AMyAnt : public APaperCharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement)
 	float PowerLevel;
 
-	//UFUNCTION(BlueprintCallable, Category = Pause)
-	//void PausePlayer();
+	UFUNCTION(BlueprintImplementableEvent, meta = (FriendlyName = "Play eat sound"))
+	virtual void PlayEatSound();
+
+	//UFUNCTION(BlueprintCallable, Category = PowerUp)	
 	void PowerUp(float amount);
-	
 };

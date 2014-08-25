@@ -110,4 +110,5 @@ void AMyAnt::PowerUp(float amount)
 	TopDownCameraComponent->OrthoWidth *= amount;
 	CharacterMovement->MaxWalkSpeed = GetMovementComponent()->GetMaxSpeed() * amount;
 	MyCreature->Die();
+	PlayEatSound();
 }
